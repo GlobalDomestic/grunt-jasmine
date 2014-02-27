@@ -43,7 +43,7 @@ Default value: `false`
 
 Output color text to Grunt.
 
-#### options.allowStackTrace
+#### options.includeStackTrace
 Type: `Boolean`
 Default value: `false`
 

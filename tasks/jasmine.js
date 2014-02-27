@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     var done = this.async();
     var options = this.options({
       showColors: true,
-      allowStackTrace: false
+      includeStackTrace: false
     });
 
     var consoleFns = require('jasmine-core/lib/console/console.js');
@@ -89,13 +89,13 @@ module.exports = function(grunt) {
     });
 
     if (grunt.option('stack')) {
-      options.allowStackTrace = true;
+      options.includeStackTrace = true;
     }
 
     var consoleReporter = new jasmine.ConsoleReporter({
       showColors: options.showColors,
       print: function(line) {
-        grunt.log.write(stripStackFrames(line, options.allowStackTrace));
+        grunt.log.write(stripStackFrames(line, options.includeStackTrace));
       },
       timer: new jasmine.Timer(),
       onComplete: function onComplete(exitCode) {
