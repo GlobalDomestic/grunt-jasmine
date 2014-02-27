@@ -19,8 +19,10 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var done = this.async();
     var options = this.options({
-      showColors: true
+      showColors: true,
+      allowStackTrace: false
     });
+
     var consoleFns = require('jasmine-core/lib/console/console.js');
     var jasmineRequire = require('jasmine-core/lib/jasmine-core/jasmine.js');
     var jasmine = jasmineRequire.core(jasmineRequire);
@@ -86,9 +88,15 @@ module.exports = function(grunt) {
       grunt.verbose.writeln('Loaded spec file: %s', filepath);
     });
 
+    if (grunt.option('stack')) {
+      options.allowStackTrace = true;
+    }
+
     var consoleReporter = new jasmine.ConsoleReporter({
       showColors: options.showColors,
-      print: grunt.log.write,
+      print: function(line) {
+        grunt.log.write(stripStackFrames(line, options.allowStackTrace));
+      },
       timer: new jasmine.Timer(),
       onComplete: function onComplete(exitCode) {
         unextend(global, jasmineInterface);
@@ -131,4 +139,17 @@ function unextend(origin, add) {
   }
 
   return origin;
+}
+
+function stripStackFrames(text, allow) {
+  if (!text) {
+    return text;
+  }
+
+  return text.split(/\n/).filter(function (line) {
+    var stackFrame = /^\s+at\s/.test(line);
+
+    /*jshint -W018 */
+    return (!stackFrame || (allow && !(line.indexOf('/jasmine-core/') > -1)));
+  }).join('\n');
 }

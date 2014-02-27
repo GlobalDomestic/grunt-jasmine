@@ -43,6 +43,12 @@ Default value: `false`
 
 Output color text to Grunt.
 
+#### options.allowStackTrace
+Type: `Boolean`
+Default value: `false`
+
+Output stack trace for any spec errors. Using the Grunt `--stack` option will override any configuration settings.
+
 ### Usage Examples
 
 #### Default Options
