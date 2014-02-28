@@ -115,12 +115,9 @@ function extend(origin, add) {
     return origin;
   }
 
-  var keys = Object.keys(add);
-  var i = keys.length;
-
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
+  Object.keys(add).forEach(function (key) {
+    origin[key] = add[key];
+  });
 
   return origin;
 }
@@ -131,12 +128,9 @@ function unextend(origin, add) {
     return origin;
   }
 
-  var keys = Object.keys(add);
-  var i = keys.length;
-
-  while (i--) {
-    delete origin[keys[i]];
-  }
+  Object.keys(add).forEach(function (key) {
+    delete origin[key];
+  });
 
   return origin;
 }
